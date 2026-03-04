@@ -9,9 +9,17 @@ const db = new Pool({
   max: 5
 });
 
+// Prevent server crash when Neon suspends idle connections
+db.on('error', (err) => {
+  console.error('DB pool error (auto-handled):', err.message);
+});
+
 const connectWithRetry = (retries = 5) => {
   db.connect()
-    .then(() => console.log('PostgreSQL Connected ✅'))
+    .then(client => {
+      console.log('PostgreSQL Connected ✅');
+      client.release();
+    })
     .catch(err => {
       console.error(`DB Connection Failed (retries left: ${retries}):`, err.message);
       if (retries > 0) {
