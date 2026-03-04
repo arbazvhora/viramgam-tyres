@@ -4,7 +4,7 @@ const db = require('../db');
 
 router.get('/', async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM bills ORDER BY date DESC');
+    const result = await db.query('SELECT * FROM bills ORDER BY created_at DESC');
     const bills = result.rows;
 
     // Attach items to each bill

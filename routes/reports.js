@@ -17,7 +17,7 @@ const attachItems = async (bills) => {
 router.get('/daily/:date', async (req, res) => {
   try {
     const result = await db.query(
-      'SELECT * FROM bills WHERE date::date=$1 ORDER BY date DESC',
+      'SELECT * FROM bills WHERE date::date=$1 ORDER BY created_at DESC',
       [req.params.date]
     );
     const revenue = result.rows.reduce((sum, b) => sum + parseFloat(b.final_amount || 0), 0);
@@ -29,7 +29,7 @@ router.get('/daily/:date', async (req, res) => {
 router.get('/monthly/:year/:month', async (req, res) => {
   try {
     const result = await db.query(
-      'SELECT * FROM bills WHERE EXTRACT(YEAR FROM date::date)=$1 AND EXTRACT(MONTH FROM date::date)=$2 ORDER BY date DESC',
+      'SELECT * FROM bills WHERE EXTRACT(YEAR FROM date::date)=$1 AND EXTRACT(MONTH FROM date::date)=$2 ORDER BY created_at DESC',
       [req.params.year, req.params.month]
     );
     const revenue = result.rows.reduce((sum, b) => sum + parseFloat(b.final_amount || 0), 0);
@@ -41,7 +41,7 @@ router.get('/monthly/:year/:month', async (req, res) => {
 router.get('/yearly/:year', async (req, res) => {
   try {
     const result = await db.query(
-      'SELECT * FROM bills WHERE EXTRACT(YEAR FROM date::date)=$1 ORDER BY date DESC',
+      'SELECT * FROM bills WHERE EXTRACT(YEAR FROM date::date)=$1 ORDER BY created_at DESC',
       [req.params.year]
     );
     const revenue = result.rows.reduce((sum, b) => sum + parseFloat(b.final_amount || 0), 0);
@@ -50,4 +50,4 @@ router.get('/yearly/:year', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-module.exports = router;
+module.exports = router;                                                                                                                                                                                              
