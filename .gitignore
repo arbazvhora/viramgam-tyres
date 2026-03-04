@@ -1,0 +1,11 @@
+.env
+
+# Password files
+paasword.txt
+password.txt
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
